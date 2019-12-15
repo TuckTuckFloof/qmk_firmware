@@ -17,23 +17,31 @@
 #include QMK_KEYBOARD_H
 
 #define BASE 0
-#define FN 1
+#define DIRECTIONAL 1
+#define ARROW 2
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	[BASE] = LAYOUT(
-		KC_7, KC_8, KC_9,
-		KC_4, KC_5, KC_6,
-		KC_1, KC_2, KC_3,
-		MO(1), KC_0, KC_DOT
-	),
+		KC_F1, KC_F2, KC_F3,
+		KC_F4, KC_F5, KC_F6,
+		KC_F7, KC_F8, KC_F9,
+		TG(1), TG(2), KC_WAKE
+  ),
   
-	[FN] = LAYOUT(
-		KC_TRNS, KC_HOME, KC_PGUP,
-		KC_TRNS, KC_END, KC_PGDN,
+	[DIRECTIONAL] = LAYOUT(
+		KC_PSCR, KC_HOME, KC_PGUP,
+		KC_INS, KC_END, KC_PGDN,
+		KC_DEL, KC_TRNS, KC_TRNS,
+	  TG(1), KC_TRNS, KC_SLEP
+	),
+
+  [ARROW] = LAYOUT(
+    KC_TRNS, KC_UP, KC_TRNS,
+		KC_LEFT, KC_DOWN, KC_RIGHT,
 		KC_TRNS, KC_TRNS, KC_TRNS,
-		KC_TRNS, KC_TRNS, KC_ENT
-	)
+		KC_TRNS, KC_TRNS, KC_TRNS
+  )
 };
 
 #ifdef OLED_DRIVER_ENABLE
@@ -43,13 +51,16 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 
 void oled_task_user(void) {
   // Host Keyboard Layer Status
-  oled_write_P(PSTR("OLED's are \n neat"), false);
+  oled_write_P(PSTR("FloofMac \n\n"), false);
   switch (get_highest_layer(layer_state)) {
     case BASE:
       oled_write_ln_P(PSTR(""), false);
       break;
-    case FN:
-      oled_write_ln_P(PSTR("\nFN"), false);
+    case DIRECTIONAL:
+      oled_write_ln_P(PSTR("NAV\nCLUST"), false);
+      break;
+    case ARROW:
+      oled_write_ln_P(PSTR("ARROW KEYS"), false);
       break;
     default:
       // Or use the write_ln shortcut over adding '\n' to the end of your string

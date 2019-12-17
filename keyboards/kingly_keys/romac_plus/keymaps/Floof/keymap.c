@@ -26,14 +26,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_F1, KC_F2, KC_F3,
 		KC_F4, KC_F5, KC_F6,
 		KC_F7, KC_F8, KC_F9,
-		TG(1), TG(2), KC_WAKE
+		KC_TRNS, TG(1), TG(2)
   ),
   
 	[DIRECTIONAL] = LAYOUT(
 		KC_PSCR, KC_HOME, KC_PGUP,
 		KC_INS, KC_END, KC_PGDN,
-		KC_DEL, KC_TRNS, KC_TRNS,
-	  TG(1), KC_TRNS, KC_SLEP
+		KC_DEL, KC_SLEP, KC_WAKE,
+	  KC_TRNS, KC_TRNS, KC_TRNS
 	),
 
   [ARROW] = LAYOUT(
@@ -44,6 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+// OLED Stuff
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;  // flips the display 180 degrees if offhand
@@ -74,3 +75,14 @@ void oled_task_user(void) {
   oled_write_P(IS_LED_ON(led_usb_state, USB_LED_SCROLL_LOCK) ? PSTR("SCRLK") : PSTR("       "), false);
 }
 #endif
+
+// Rotary Encoder stuff
+void encoder_update_user(uint8_t index, bool clockwise) {
+  if (index == 0) { /* First encoder */
+    if (clockwise) {
+      tap_code(KC_MS_LEFT);
+    } else {
+      tap_code(KC_MS_RIGHT);
+    }
+  }
+}

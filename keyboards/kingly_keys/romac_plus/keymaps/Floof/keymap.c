@@ -19,6 +19,7 @@
 #define BASE 0
 #define DIRECTIONAL 1
 #define ARROW 2
+#define ETCHASKETCH 3
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -33,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_PSCR, KC_HOME, KC_PGUP,
 		KC_INS, KC_END, KC_PGDN,
 		KC_DEL, KC_SLEP, KC_WAKE,
-	  KC_TRNS, KC_TRNS, KC_TRNS
+	  KC_TRNS, KC_TRNS, TG(3)
 	),
 
   [ARROW] = LAYOUT(
@@ -41,6 +42,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_LEFT, KC_DOWN, KC_RIGHT,
 		KC_TRNS, KC_TRNS, KC_TRNS,
 		KC_TRNS, KC_TRNS, KC_TRNS
+  ),
+
+  [ETCHASKETCH] = LAYOUT(
+    KC_TRNS, KC_TRNS, KC_ACL2,
+		KC_TRNS, KC_TRNS, KC_TRNS,
+		KC_TRNS, KC_TRNS, KC_TRNS,
+		KC_TRNS, KC_MS_BTN1, KC_TRNS
   )
 };
 
@@ -62,6 +70,9 @@ void oled_task_user(void) {
       break;
     case ARROW:
       oled_write_ln_P(PSTR("ARROW KEYS"), false);
+      break;
+    case ETCHASKETCH:
+      oled_write_ln_P(PSTR("ETCH-\nA-\nSKET-\nCH"), false);
       break;
     default:
       // Or use the write_ln shortcut over adding '\n' to the end of your string
